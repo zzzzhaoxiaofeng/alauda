@@ -1,0 +1,32 @@
+descriptors:
+  - path: 'workload0'
+    x-descriptors:
+      - 'urn:alm:descriptor:label:zh:工作负载 test-helm-qaimages'
+      - 'urn:alm:descriptor:label:en:Workload test-helm-qaimages'
+  - description: '计算组件名称'
+    displayName: test-helm-qaimages
+    path: workload0.name
+    x-descriptors:
+      - 'urn:alm:descriptor:com.tectonic.ui:fieldGroup:workload0'
+      - 'urn:alm:descriptor:com.tectonic.ui:text'
+      - 'urn:alm:descriptor:description:en:Name'
+      - 'urn:alm:descriptor:description:zh:名称'
+      - 'urn:alm:descriptor:label:en:Name'
+      - 'urn:alm:descriptor:label:zh:名称'
+      - 'urn:alm:descriptor:com.tectonic.default:test-helm-qaimages'
+  - path: 'workload0.container0'
+    displayName: '容器1'
+    x-descriptors:
+      - 'urn:alm:descriptor:com.tectonic.ui:fieldGroup:workload0'
+      - 'urn:alm:descriptor:com.tectonic.ui:object'
+  - description: '镜像'
+    displayName: Image
+    path: workload0.container0.image
+    x-descriptors:
+      - 'urn:alm:descriptor:com.tectonic.ui:fieldGroup:workload0.container0'
+      - 'urn:alm:descriptor:com.tectonic.ui:text'
+      - 'urn:alm:descriptor:description:en:Image'
+      - 'urn:alm:descriptor:description:zh:镜像'
+      - 'urn:alm:descriptor:label:en:Image'
+      - 'urn:alm:descriptor:label:zh:镜像'
+      - 'urn:alm:descriptor:com.tectonic.default:192.168.138.127/automation/qaimages:helloworld'

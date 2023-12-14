@@ -1,0 +1,4 @@
+workload0:
+  name: test-helm-qaimages
+  container0:
+    image: registry.alauda.cn:60080/automation/qaimages:helloworld

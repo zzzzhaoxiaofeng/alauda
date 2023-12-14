@@ -1,0 +1,19 @@
+kind: Application
+apiVersion: core.oam.dev/v1beta1
+metadata:
+  name: test
+spec:
+  components:
+    - name: oamweb
+      properties:
+        env: []
+        image: registry.alauda.cn:60080/automation/qaimages:helloworld
+        ports: []
+        volumes: []
+      traits:
+        - properties:
+            action: start
+            replicas: 2
+          type: scaler
+      type: webservice
+

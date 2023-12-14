@@ -1,0 +1,16 @@
+annotations:
+  CHANGE: ME
+  branch: master
+  chart: template
+  cpaas.io/arch: amd64.arm64
+  release: alpha
+apiVersion: v2
+appVersion: v3.0.0
+description: helloworld chart for testing
+keywords:
+- helloworld
+maintainers:
+- email: zhaoxiaofeng@alauda.io
+  name: zhaoxiaofeng
+name: description
+version: "v1.0.0"

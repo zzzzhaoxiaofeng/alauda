@@ -1,0 +1,48 @@
+replicaCount: 1
+
+global:
+  registry:
+    address: registry.alauda.cn:60080
+  images:
+    helloworld:
+      repository: automation/qaimages
+      tag: helloworld
+      pullPolicy: IfNotPresent
+      code: gitlab-ce.alauda.cn/alaudatest/helloworld
+      support_arm: false
+nameOverride: ""
+fullnameOverride: ""
+
+namespace: e2eproject-acp-0-ns
+
+service:
+  type: ClusterIP
+  port: 80
+
+ingress:
+  enabled: false
+  annotations: {}
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+  hosts:
+    - host: helloworld.local
+      paths: []
+
+  tls: []
+  #  - secretName: chart-example-tls
+  #    hosts:
+  #      - chart-example.local
+
+resources:
+  limits:
+    cpu: 10m
+    memory: 20Mi
+  requests:
+    cpu: 10m
+    memory: 20Mi
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}

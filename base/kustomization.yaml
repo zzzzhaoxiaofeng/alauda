@@ -1,0 +1,4 @@
+resources:
+- application.yaml
+- oam.yaml
+- other.yaml

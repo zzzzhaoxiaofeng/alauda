@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    deployment.kubernetes.io/revision: "1"
+  labels:
+    app.cpaas.io/name: test-helm.{{ .Release.Namespace }}
+    app.cpaas.io/uuid: beaa3a04-0ffe-45e8-928b-43c5ec8521de
+    chart: '{{.Chart.Name}}-{{.Chart.Version}}-{{.Chart.AppVersion}}'
+  name: '{{.Values.workload0.name}}'
+  namespace: '{{ .Release.Namespace }}'
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      project.cpaas.io/name: e2eproject-acp-0
+      service.cpaas.io/name: deployment-test-helm-qaimages
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+    type: RollingUpdate
+  template:
+    metadata:
+      annotations:
+        cpaas.io/creator: admin
+      creationTimestamp: null
+      labels:
+        app.cpaas.io/name: test-helm.{{ .Release.Namespace }}
+        project.cpaas.io/name: e2eproject-acp-0
+        service.cpaas.io/name: deployment-test-helm-qaimages
+    spec:
+      affinity: {}
+      containers:
+      - image: '{{.Values.workload0.container0.image}}'
+        imagePullPolicy: IfNotPresent
+        name: qaimages
+        resources:
+          limits:
+            cpu: 50m
+            memory: 50Mi
+          requests:
+            cpu: 50m
+            memory: 50Mi
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+      dnsPolicy: ClusterFirst
+      initContainers: null
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30

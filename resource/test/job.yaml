@@ -1,0 +1,48 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: test-job
+spec:
+  concurrencyPolicy: Allow
+  failedJobsHistoryLimit: 20
+  jobTemplate:
+    metadata:
+      creationTimestamp: null
+      labels:
+        cronjob.cpaas.io/name: test-job
+    spec:
+      activeDeadlineSeconds: 7200
+      backoffLimit: 6
+      template:
+        metadata:
+          annotations:
+            cpaas.io/creator: admin
+            sidecar.istio.io/inject: "false"
+          creationTimestamp: null
+          labels:
+            cronjob.cpaas.io/name: test-job
+            project.cpaas.io/name: e2eproject-acp-1
+        spec:
+          affinity: {}
+          containers:
+            - image: registry.alauda.cn:60080/automation/qaimages:helloworld
+              imagePullPolicy: IfNotPresent
+              name: qaimages
+              resources:
+                limits:
+                  cpu: 30m
+                  memory: 30Mi
+                requests:
+                  cpu: 10m
+                  memory: 10Mi
+              terminationMessagePath: /dev/termination-log
+              terminationMessagePolicy: File
+          dnsPolicy: ClusterFirst
+          restartPolicy: Never
+          schedulerName: default-scheduler
+          securityContext: {}
+          terminationGracePeriodSeconds: 30
+  schedule: 30 18 25 * 6
+  successfulJobsHistoryLimit: 20
+  suspend: false
+  timeZone: Etc/UTC

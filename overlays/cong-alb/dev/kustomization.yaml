@@ -1,0 +1,19 @@
+resources:
+- ../../../base
+
+namespace: dev
+
+labels:
+  - pairs:
+      app.cpaas.io/name: demo.dev
+
+patchesJson6902:
+  - target:
+      kind: Application
+      name: demo
+      version: v1beta1
+      group: app.k8s.io
+    patch: |-
+      - op: replace
+        path: /spec/selector/matchLabels/app.cpaas.io~1name
+        value: "demo.dev"

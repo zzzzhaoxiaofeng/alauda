@@ -1,0 +1,99 @@
+apiVersion: app.k8s.io/v1beta1
+kind: Application
+metadata:
+  annotations:
+    cpaas.io/operator: admin
+  labels:
+    app.cpaas.io/uuid: 83f7944a-3292-441f-8078-b8b962214402
+  name: first-export-git
+spec:
+  assemblyPhase: Succeeded
+  componentKinds:
+  - group: apps
+    kind: Deployment
+  - group: ""
+    kind: Service
+  descriptor: {}
+  selector:
+    matchLabels:
+      app.cpaas.io/name: first-export-git.e2eproject-acp-0-ns
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    deployment.kubernetes.io/revision: "1"
+  labels:
+    app.cpaas.io/name: first-export-git.e2eproject-acp-0-ns
+    app.cpaas.io/uuid: 83f7944a-3292-441f-8078-b8b962214402
+  name: exprot-dep-git
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app.cpaas.io/name: first-export-git.e2eproject-acp-0-ns
+      project.cpaas.io/name: e2eproject-acp-0
+      service.cpaas.io/name: deployment-exprot-dep-git
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      annotations:
+        cpaas.io/creator: admin
+      creationTimestamp: null
+      labels:
+        app: deployment-exprot-dep-git
+        app.cpaas.io/name: first-export-git.e2eproject-acp-0-ns
+        project.cpaas.io/name: e2eproject-acp-0
+        service.cpaas.io/name: deployment-exprot-dep-git
+        version: v1
+    spec:
+      containers:
+      - image: registry.alauda.cn:60080/automation/qaimages:helloworld
+        imagePullPolicy: IfNotPresent
+        name: exprot-dep-git
+        resources:
+          limits:
+            cpu: 50m
+            memory: 50Mi
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 0
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    ovn.kubernetes.io/vpc: ovn-cluster
+  labels:
+    app.cpaas.io/name: first-export-git.e2eproject-acp-0-ns
+    app.cpaas.io/uuid: 83f7944a-3292-441f-8078-b8b962214402
+  name: first-exprot-srv-git
+spec:
+  internalTrafficPolicy: Cluster
+  ipFamilies:
+  - IPv4
+  ipFamilyPolicy: SingleStack
+  ports:
+  - name: tcp-80
+    port: 80
+    protocol: TCP
+    targetPort: 80
+  - name: https-443
+    port: 443
+    protocol: TCP
+    targetPort: 443
+  selector:
+    app.cpaas.io/name: first-export-git.e2eproject-acp-0-ns
+    service.cpaas.io/name: deployment-exprot-dep-git
+  sessionAffinity: None
+  type: ClusterIP

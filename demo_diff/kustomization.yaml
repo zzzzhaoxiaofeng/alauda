@@ -1,0 +1,13 @@
+resources:
+- ../demo
+
+patchesJson6902:
+  - target:
+      group: apps
+      version: v1
+      kind: Deployment
+      name: exprot-dep-git
+    patch: |-
+      - op: replace
+        path: /spec/replicas
+        value: 2
